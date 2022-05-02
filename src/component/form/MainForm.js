@@ -73,7 +73,7 @@ export default function MainForm(props) {
 				id="tags"
 				label="Etiquetas"
 				onChange={props.handleChanges}
-				value={props.item.tags}
+				value={props.item.tags ? props.item.tags.join(" ") : ""}
 				inputProps={{style: {fontSize: 14}}}
 				sx={{width:"100%",margin:1}}
 				/>

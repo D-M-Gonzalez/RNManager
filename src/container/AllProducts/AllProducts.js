@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { Box, Grid, Button, Typography, Pagination } from '@mui/material'
 import { findProducts } from '../../controller/findProduct';
 import MiniCard from '../../component/cards/MiniCard';
-import { useNavigate, createSearchParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { deleteProduct } from '../../controller/deleteProduct';

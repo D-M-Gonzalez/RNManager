@@ -9,7 +9,7 @@ export default function MiniCard(props) {
 				component="img"
 				sx={{height:270,width:240}}
 				alt="exampleimg"
-				src={props.item.images[0].preview ? `${props.item.images[0].preview}` : (props.url ? "http://" + props.url : 'assets/dollar.png')}
+				src={props.item.images[0].preview ? `${props.item.images[0].preview}` : (props.url ? props.url : 'assets/dollar.png')}
 			/>
 		</Grid>
 		<Grid item container xs={12} justifyContent="center" sx={{height:40, width:240}}>

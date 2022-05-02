@@ -29,9 +29,9 @@ export default function BigCardImage(props) {
 
 	useEffect(()=>{
 		let array = [];
-		array.push((props.item.images[0].preview ? props.item.images[0].preview : ( props.urls[0].url ? "http://" + props.urls[0].url : `/assets/dollar.png`)))
-		array.push((props.item.images[1].preview ? props.item.images[1].preview : ( props.urls[1].url ? "http://" + props.urls[1].url : `/assets/dollar.png`)))
-		array.push((props.item.images[2].preview ? props.item.images[2].preview : ( props.urls[2].url ? "http://" + props.urls[2].url : `/assets/dollar.png`)))
+		array.push((props.item.images[0].preview ? props.item.images[0].preview : ( props.urls[0].url ? props.urls[0].url : `/assets/dollar.png`)))
+		array.push((props.item.images[1].preview ? props.item.images[1].preview : ( props.urls[1].url ? props.urls[1].url : `/assets/dollar.png`)))
+		array.push((props.item.images[2].preview ? props.item.images[2].preview : ( props.urls[2].url ? props.urls[2].url : `/assets/dollar.png`)))
 		setImageArray(array)
 	},[props])
 

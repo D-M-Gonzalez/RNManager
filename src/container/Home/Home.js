@@ -12,61 +12,102 @@ import { createProduct } from '../../controller/createProduct';
 import categorias from '../../data/categorias';
 import { findProductById } from '../../controller/findProductById';
 import { deleteProduct } from '../../controller/deleteProduct';
-import SimpleFileUpload from 'react-simple-file-upload';
 
 const MySwal = withReactContent(Swal);
 
 export default function Home() {
-    const [selectedItem, setSelectedItem] = useState();
+    const [selectedItem, setSelectedItem] = useState({
+		name: "",
+		price: "",
+		category: categorias[0].value,
+		subcategory: categorias[0].subcategorias[0].value,
+		description1: "",
+		description2: "",
+		tags: "",
+		images:[
+			{
+			id:1,
+			name:"vacio",
+			file:undefined,
+			preview:undefined,
+			url:""
+			},
+			{
+			id:2,
+			name:"vacio",
+			file:undefined,
+			preview:undefined,
+			url:""
+			},
+			{
+			id:3,
+			name:"vacio",
+			file:undefined,
+			preview:undefined,
+			url:""
+			},
+			{
+			id:4,
+			name:"vacio",
+			file:undefined,
+			preview:undefined,
+			url:""
+			},        
+			]
+		})		
 	const [subCat, setSubCat] = useState(categorias[0]);
   	const params = useParams()
 	const nav = useNavigate()
 
   useEffect(()=>{
-		fetchData().catch(console.error);
+		params.id && fetchData().catch(console.error);
 	},[])
 
   const fetchData = async () => {
 		const response = await findProductById(params.id);
-    setSelectedItem({
-      name: response.data.name,
-      price: response.data.price,
-      category: response.data.category,
-      subcategory: response.data.subcategory,
-      description1: response.data.description1,
-      description2: response.data.description2,
-      tags: response.data.tags,
-      images:[
-        {
-          id:1,
-          name:"vacio",
-          file:undefined,
-          preview:undefined,
-          url:response.data.images[0]
-        },
-        {
-          id:2,
-          name:"vacio",
-          file:undefined,
-          preview:undefined,
-          url:response.data.images[1]
-        },
-        {
-          id:3,
-          name:"vacio",
-          file:undefined,
-          preview:undefined,
-          url:response.data.images[2]
-        },
-        {
-          id:4,
-          name:"vacio",
-          file:undefined,
-          preview:undefined,
-          url:response.data.images[3]
-        },        
-      ]
-    })
+		setSubCat(categorias.find((el)=>{
+			return el.value === response.data.category
+		}))
+    	setSelectedItem({
+		name: response.data.name,
+		price: response.data.price,
+		category: response.data.category,
+		subcategory: response.data.subcategory,
+		description1: response.data.description1,
+		description2: response.data.description2,
+		tags: response.data.tags,
+		images:[
+			{
+			id:1,
+			name:"vacio",
+			file:undefined,
+			preview:undefined,
+			url:response.data.images[0]
+			},
+			{
+			id:2,
+			name:"vacio",
+			file:undefined,
+			preview:undefined,
+			url:response.data.images[1]
+			},
+			{
+			id:3,
+			name:"vacio",
+			file:undefined,
+			preview:undefined,
+			url:response.data.images[2]
+			},
+			{
+			id:4,
+			name:"vacio",
+			file:undefined,
+			preview:undefined,
+			url:response.data.images[3]
+			},        
+			]
+		})
+
 	}
 
 	const fileUpload = id => (event) => {
@@ -114,7 +155,6 @@ export default function Home() {
 
     const handleSave = async () => {
         const response = await createProduct(selectedItem)
-
         MySwal.fire({
             title: <strong>{response.message}!</strong>,
             showConfirmButton: true,
@@ -146,11 +186,6 @@ export default function Home() {
             }
           });
     }
-
-	function handleFile(url){
-		console.log('The URL of the file is ' + url)
-	  }
-
 
     if( !selectedItem ){
       <div>loading...</div>
@@ -201,11 +236,6 @@ export default function Home() {
               				item={selectedItem} urls={selectedItem.images}
             			/>
           			</Grid>
-					<Grid item xs={12}>
-						<div>
-							<SimpleFileUpload apiKey="858df53f-1a48-4936-8c2e-7c8c81e5d9a6" onSuccess={handleFile} />
-						</div>
-					</Grid>
               	</Grid>
           	</Box>
       )
