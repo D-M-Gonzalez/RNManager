@@ -1,3 +1,5 @@
+import { serverURL } from "../data/server";
+
 export async function logInUser(input) { //Log in POST
     const requestOptions = {
       method: "POST",
@@ -7,8 +9,7 @@ export async function logInUser(input) { //Log in POST
         password: input.password,
       }),
     };
-    const response = await fetch(
-      "https://regalitosnao-backend.herokuapp.com/api/users/login/user",
+    const response = await fetch( serverURL + "api/users/login/user",
       requestOptions
     );
     const data = await response.json();

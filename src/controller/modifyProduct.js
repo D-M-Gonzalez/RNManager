@@ -1,3 +1,5 @@
+import { serverURL } from "../data/server";
+
 export async function modifyProduct(input,id) { //Controlador para crear un nuevo item en el servidor
     const token = sessionStorage.getItem("token");
     const formData = new FormData()
@@ -18,8 +20,7 @@ export async function modifyProduct(input,id) { //Controlador para crear un nuev
       },
       body: formData
     };
-    const response = await fetch(
-      `https://regalitosnao-backend.herokuapp.com/api/products/${id}`,
+    const response = await fetch( serverURL + `api/products/${id}`,
       requestOptions
     );
     const data = await response.json();

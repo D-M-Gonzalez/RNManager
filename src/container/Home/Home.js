@@ -1,6 +1,6 @@
 import { Grid, Typography, Button, Box} from '@mui/material';
 import React, {useState, useEffect} from 'react'
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useOutletContext } from 'react-router-dom';
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import DetailCard from '../../component/cards/DetailCard';
@@ -16,6 +16,9 @@ import { deleteProduct } from '../../controller/deleteProduct';
 const MySwal = withReactContent(Swal);
 
 export default function Home() {
+	const {lock,unlock} = useOutletContext()
+	const [loading, setLoading] = lock
+	const [loaded, setLoaded] = unlock
     const [selectedItem, setSelectedItem] = useState({
 		name: "",
 		price: "",
@@ -64,7 +67,9 @@ export default function Home() {
 	},[])
 
   const fetchData = async () => {
+		loading()
 		const response = await findProductById(params.id);
+		loaded()
 		setSubCat(categorias.find((el)=>{
 			return el.value === response.data.category
 		}))
@@ -154,7 +159,9 @@ export default function Home() {
     }
 
     const handleSave = async () => {
+		loading()
         const response = await createProduct(selectedItem)
+		loaded()
         MySwal.fire({
             title: <strong>{response.message}!</strong>,
             showConfirmButton: true,

@@ -1,3 +1,5 @@
+import { serverURL } from "../data/server";
+
 export async function deleteProduct(id) { //Controlador utilizado para borrar items 
     const token = sessionStorage.getItem("token");
     const requestOptions = {
@@ -7,8 +9,7 @@ export async function deleteProduct(id) { //Controlador utilizado para borrar it
         Authorization: `JWT ${token}` , //token required to validate the user
       },
     };
-    const response = await fetch(
-      `https://regalitosnao-backend.herokuapp.com/api/products/${id}`,
+    const response = await fetch( serverURL + `api/products/${id}`,
       requestOptions
     );
     const data = await response.json();

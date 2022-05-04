@@ -1,3 +1,5 @@
+import { serverURL } from "../data/server";
+
 export async function findProductById(id) { //Controlador usado para encontrar todos los items de un usuario
     const requestOptions = {
       method: "GET",
@@ -5,8 +7,7 @@ export async function findProductById(id) { //Controlador usado para encontrar t
         "Content-Type": "application/json",
       },
     };
-    const response = await fetch(
-      `https://regalitosnao-backend.herokuapp.com/api/products/${id}`, //Pasa la id del usuario por query
+    const response = await fetch( serverURL + `api/products/${id}`, //Pasa la id del usuario por query
       requestOptions
     );
     const data = await response.json();

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { Box, Grid, Button, Typography, Pagination } from '@mui/material'
 import { findProducts } from '../../controller/findProduct';
 import MiniCard from '../../component/cards/MiniCard';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, useOutletContext } from 'react-router-dom';
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { deleteProduct } from '../../controller/deleteProduct';
@@ -10,6 +10,9 @@ import { deleteProduct } from '../../controller/deleteProduct';
 const MySwal = withReactContent(Swal);
 
 export default function AllProducts() {
+	const {lock,unlock} = useOutletContext()
+	const [loading, setLoading] = lock
+	const [loaded, setLoaded] = unlock
   	const [products, setProducts] = useState()
   	const [page, setPage] = useState(1)
 	const [total, setTotal] = useState(1)
@@ -24,10 +27,12 @@ export default function AllProducts() {
 	},[searchParams])
 
   	const fetchData = async () => {
+		loading()
 		const response = await findProducts(searchParams.get("page"),searchParams.get("size"));
     	setProducts(response.items)
 		const integer = Math.ceil(response.total/10)
 		setTotal(integer)
+		loaded()
 	}
 
   	const handleClick = id => (event) => {

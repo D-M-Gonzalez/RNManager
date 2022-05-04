@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField'
 import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
 import { Typography } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 import { logInUser } from '../../controller/logInUser'
 
 export default function Login() {
@@ -12,6 +12,9 @@ export default function Login() {
 		name:"",
 		password:"",
 	})
+	const {lock,unlock} = useOutletContext()
+	const [loading, setLoading] = lock
+	const [loaded, setLoaded] = unlock
 	const nav = useNavigate();
 
 	const handleClick = (event) => {
@@ -24,8 +27,8 @@ export default function Login() {
 	}
 
 	const login = async () => {
-		const response = await logInUser(user);
-		console.log(response)
+		loading()
+		const response = await logInUser(user).then(loaded())
 		if ( response.status === 200){
 			const storeUser = JSON.stringify(response.data);
 			const token = JSON.stringify(response.data.accessToken);
