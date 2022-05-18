@@ -2,7 +2,6 @@ import React from 'react'
 import {Grid,Typography,Box} from '@mui/material';
 
 export default function MiniCard(props) {
-	console.log(props)
   return (
     <Grid container mt={2} sx={{height:350, width:240, backgroundColor:"rgb(255,206,199)"}}>
 		<Grid item container xs={12} justifyContent="center" sx={{height:270, width:240}}>
@@ -10,7 +9,7 @@ export default function MiniCard(props) {
 				component="img"
 				sx={{height:270,width:240}}
 				alt="exampleimg"
-				src={props.item.images.length > 0 ? `${props.item.images[0]}` : (props.url ? props.url : 'assets/dollar.png')}
+				src={props.item.images[0].preview ? `${props.item.images[0].preview}` : (props.url ? props.url : 'assets/dollar.png')}
 			/>
 		</Grid>
 		<Grid item container xs={12} justifyContent="center" sx={{height:40, width:240}}>
