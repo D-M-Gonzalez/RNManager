@@ -25,10 +25,10 @@ export default function MainDial(props) {
     props.func()
   }
   const actions = [
-    { icon: <Link to="/home"><SaveIcon sx={{display:"block",color:"black"}} /></Link>, label: 'Save Product', key: "home"},
-    { icon: <Link to="/all"><SearchIcon sx={{display:"block",color:"black"}}/></Link>, label: 'View all Products', operation:"all", key:"all" },
-    { icon: <Link to="/allimages"><ImageSearchIcon sx={{display:"block",color:"black"}} /></Link>, label: 'View all images', operation:"allimages", key:"allimages" },
-    { icon: <AttachMoneyIcon onClick={handlePrices} name="setprices" sx={{display:"block",color:"black"}} />, label: 'Set prices', operation:"setprices", key:"setprices" },
+    { icon: <Link to="/home"><SaveIcon sx={{display:"block",color:"black"}} /></Link>, label: 'Crear producto', key: "home"},
+    { icon: <Link to="/all"><SearchIcon sx={{display:"block",color:"black"}}/></Link>, label: 'Ver todos los productos', operation:"all", key:"all" },
+    { icon: <Link to="/allimages"><ImageSearchIcon sx={{display:"block",color:"black"}} /></Link>, label: 'Ver todas las imagenes', operation:"allimages", key:"allimages" },
+    { icon: <AttachMoneyIcon onClick={handlePrices} name="setprices" sx={{display:"block",color:"black"}} />, label: 'Cambiar precios', operation:"setprices", key:"setprices" },
   ];
 
   return (

@@ -28,7 +28,7 @@ export default function AllProducts() {
 
   	const fetchData = async () => {
 		loading()
-		const response = await findProducts(searchParams.get("page"),searchParams.get("size"));
+		const response = await findProducts(searchParams.get("page"),searchParams.get("size"),"ALL","ALL","");
     	setProducts(response.items)
 		const integer = Math.ceil(response.total/10)
 		setTotal(integer)
@@ -49,21 +49,21 @@ export default function AllProducts() {
 
   	const handleDelete = id => async (event) => {
 		MySwal.fire({ //Fires a warning before doing the deletion
-            title: <strong>Are you sure?</strong>,
-            html: <i>Item will be permanently deleted!</i>,
+            title: <strong>Estas segura?</strong>,
+            html: <i>Se va a borrar de manera peramente!</i>,
             showDenyButton: true,
             showConfirmButton: true,
             confirmButtonText: "Yes, delete!",
-            confirmButtonColor: "darkred",
+            confirmButtonColor: "rgb(255,206,199)",
             denyButtonText: "No!",
-            denyButtonColor: "forestgreen",
+            denyButtonColor: "rgb(188,220,219)",
           }).then(async (result) => {
             if (result.isConfirmed) {
 				const response = await deleteProduct(id)
               Swal.fire({
-                title: response.message,
+                title: "El producto fué borrado!",
                 showConfirmButton: true,
-                confirmButtonColor: "forestgreen",
+                confirmButtonColor: "rgb(188,220,219)",
               }).then(async () => {
                 nav(0);
               });
