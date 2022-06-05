@@ -23,7 +23,6 @@ export default function MainForm(props) {
 					required
 					id="price"
 					label="Precio"
-					type="number"
 					onChange={props.handleChanges}
 					value={props.item.price}
 					inputProps={{style: {fontSize: 14}}}

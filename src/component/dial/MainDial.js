@@ -5,8 +5,8 @@ import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import SaveIcon from '@mui/icons-material/Save';
 import SearchIcon from '@mui/icons-material/Search';
-import ImageSearchIcon from '@mui/icons-material/ImageSearch';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import MessageIcon from '@mui/icons-material/Message';
 import { Link, useNavigate } from 'react-router-dom';
 
 
@@ -14,21 +14,27 @@ export default function MainDial(props) {
   const nav = useNavigate()
   
   const handleClick = (event) => {
-    if ( event.target.name !== "setprices" && event.target.name ){
+    if ( event.target.name !== "setprices" && event.target.name !== "setmessage" && event.target.name ){
       nav(event.target.name)
     } else if ( event.target.name === "setprices" ) {
-      handlePrices()
+      handlePrices("setprices")
+    } else if ( event.target.name === "setmessage" ) {
+      handlePrices("setmessage")
     }
   }
 
-  const handlePrices = () => {
-    props.func()
+  const handleDial = id => () => {
+    props.handleClick(id)
+  }
+
+  const handlePrices = (id) => {
+    props.handleClick(id)
   }
   const actions = [
     { icon: <Link to="/home"><SaveIcon sx={{display:"block",color:"black"}} /></Link>, label: 'Crear producto', key: "home"},
     { icon: <Link to="/all"><SearchIcon sx={{display:"block",color:"black"}}/></Link>, label: 'Ver todos los productos', operation:"all", key:"all" },
-    { icon: <Link to="/allimages"><ImageSearchIcon sx={{display:"block",color:"black"}} /></Link>, label: 'Ver todas las imagenes', operation:"allimages", key:"allimages" },
-    { icon: <AttachMoneyIcon onClick={handlePrices} name="setprices" sx={{display:"block",color:"black"}} />, label: 'Cambiar precios', operation:"setprices", key:"setprices" },
+    { icon: <AttachMoneyIcon onClick={handleDial("setprices")} name="setprices" sx={{display:"block",color:"black"}} />, label: 'Cambiar precios', operation:"setprices", key:"setprices" },
+    { icon: <MessageIcon onClick={handleDial("setmessage")} name="setmessage" sx={{display:"block",color:"black"}} />, label: 'Cambiar mensaje', operation:"setmessage", key:"setmessage" },
   ];
 
   return (

@@ -9,6 +9,7 @@ import DescriptionForm from '../../component/form/DescriptionForm';
 import MainForm from '../../component/form/MainForm';
 import UploadMultiForm from '../../component/form/UploadMultiForm';
 import { createProduct } from '../../controller/createProduct';
+import { modifyProduct } from '../../controller/modifyProduct';
 import categorias from '../../data/categorias';
 import { findProductById } from '../../controller/findProductById';
 import { deleteProduct } from '../../controller/deleteProduct';
@@ -19,6 +20,7 @@ export default function Home() {
 	const {lock,unlock} = useOutletContext()
 	const [loading, setLoading] = lock
 	const [loaded, setLoaded] = unlock
+	const [modify, setModify] = useState(0)
     const [selectedItem, setSelectedItem] = useState({
 		name: "",
 		price: "",
@@ -112,6 +114,7 @@ export default function Home() {
 			},        
 			]
 		})
+		setModify(1)
 
 	}
 
@@ -160,14 +163,24 @@ export default function Home() {
 
     const handleSave = async () => {
 		loading()
-        const response = await createProduct(selectedItem)
-		loaded()
-        MySwal.fire({
-            title: <strong>{response.message}!</strong>,
-            showConfirmButton: true,
-            confirmButtonText: "Okay",
-            confirmButtonColor: "forestgreen",
-          });
+		if ( isNaN(parseFloat(selectedItem.price)) ){
+			loaded()
+			MySwal.fire({
+				title: "El precio debe contenter un número",
+				showConfirmButton: true,
+				confirmButtonText: "Okay",
+				confirmButtonColor: "forestgreen",
+			  });
+		} else {
+			const response = modify === 1 ? await modifyProduct(selectedItem,params.id) : await createProduct(selectedItem)
+			loaded()
+			MySwal.fire({
+				title: <strong>{response.message}!</strong>,
+				showConfirmButton: true,
+				confirmButtonText: "Okay",
+				confirmButtonColor: "forestgreen",
+			  });
+		}
     }
 
 	const handleDelete = async () => {

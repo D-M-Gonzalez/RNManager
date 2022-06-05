@@ -36,6 +36,9 @@ export default function Login() {
 			sessionStorage.setItem("user",storeUser);
 			sessionStorage.setItem("token",token);
 			nav("/home")
+		} else {
+			console.log(response.status)
+			console.log(response.message)
 		}
 	}
 

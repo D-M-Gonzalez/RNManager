@@ -1,14 +1,20 @@
 import React, {useState} from 'react'
-import {Grid , Typography , Box, Backdrop, CircularProgress, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, IconButton} from '@mui/material/'
-import { Outlet } from 'react-router-dom'
+import {Grid , Typography , Box, Backdrop, CircularProgress } from '@mui/material/'
+import { Outlet, useNavigate } from 'react-router-dom'
 import MainDial from '../../component/dial/MainDial'
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import PricesModal from '../../component/modals/PricesModal';
+import { modifyPrices } from '../../controller/modifyPrices';
+import MessageModal from '../../component/modals/MessageModal';
+import { modifyMessage } from '../../controller/modifyMessage';
 
 export default function Layout() {
 	const [openBackdrop, setOpenBackdrop] = useState(false);
-	const [openDialog, setOpenDialog] = useState(false);
+	const [openPrices, setOpenPrices] = useState(false);
+	const [openMessage, setOpenMessage] = useState(false);
 	const [prices, setPrices] = useState(0);
+	const [message, setMessage] = useState();
+	const nav = useNavigate()
+
 	const handleClose = () => {
 		setOpenBackdrop(false);
 	};
@@ -16,17 +22,39 @@ export default function Layout() {
 		setOpenBackdrop(true);
 	};
 
-	const handleClickOpen = () => {
-	  setOpenDialog(true);
+	const handleClickOpen = (id) => {
+		if( id === "setprices" ){
+			setPrices(0)
+			setOpenPrices(true)
+		}
+		if( id === "setmessage" ){
+			setMessage("")
+			setOpenMessage(true)
+		}
 	};
+
+	const handleClickClose = (id) => {
+		if(id === "cancelar"){
+			setOpenPrices(false)
+			setOpenMessage(false)
+		}
+	}
   
 	const handleClick = (event) => {
-		console.log(event.target)
 		event.target.name === "backdrop" && setOpenBackdrop(false)
-		event.target.name === "dialog" && setOpenDialog(false)
-		event.target.name === "accept" && setOpenDialog(false)
-		event.target.name === "cancel" && setOpenDialog(false)
 	};
+
+	const changePrices = async (input) => {
+		setOpenPrices(false)
+		const response = await modifyPrices(input)
+		nav(0)
+	}
+
+	const changeMessage = async (input) => {
+		setOpenMessage(false)
+		const response = await modifyMessage(input)
+		nav(0)
+	}
 
   return (
     	<Box>
@@ -38,34 +66,21 @@ export default function Layout() {
       			>
         		<CircularProgress color="inherit" />
       		</Backdrop>
-			<Dialog open={openDialog} name="dialog">
-        		<DialogTitle>Subscribe</DialogTitle>
-        		<DialogContent>
-					<DialogContentText>
-						Presiona para modificar los precios de TODOS los productos.
-					</DialogContentText>
-					<Grid container justifyContent="center" >
-						<Grid item container xs={1.5} justifyContent="center">
-							<IconButton><AddCircleIcon/></IconButton>
-						</Grid>
-						<Grid item container xs={1.5} alignContent="center" justifyContent="center">
-							<Typography>{prices} %</Typography>
-						</Grid>
-						<Grid item container xs={1.5} justifyContent="center">
-							<IconButton><RemoveCircleIcon/></IconButton>
-						</Grid>
-					</Grid>
-        		</DialogContent>
-        		<DialogActions>
-					<Button variant="contained" name="accept" onClick={handleClick} sx={{margin:1,backgroundColor:"rgb(255,206,199)"}}>
-						<Typography color="black" name="accept" onClick={handleClick} fontSize={{sm:16,xs:10}}>Aceptar</Typography>
-					</Button>
-					<Button variant="contained" name="cancel" onClick={handleClick} sx={{margin:1,backgroundColor:"rgb(188,220,219)"}}>
-						<Typography color="black" name="cancel" onClick={handleClick} fontSize={{sm:16,xs:10}}>Cancelar</Typography>
-					</Button>
-        		</DialogActions>
-      		</Dialog>
-      		<MainDial func={handleClickOpen}/>
+			<PricesModal
+				openPrices={openPrices}
+				closeModal={handleClickClose}
+				handleSubmit={changePrices}
+				setPrices={setPrices}
+				prices={prices}
+			/>
+			<MessageModal
+				openMessage={openMessage}
+				closeModal={handleClickClose}
+				handleSubmit={changeMessage}
+				setMessage={setMessage}
+				message={message}
+			/>
+      		<MainDial handleClick={handleClickOpen}/>
       		<Grid container>
 				<Grid item container xs={12} justifyContent="center">
 					<Typography mt={5} mb={5} fontSize={40} fontWeight="bolder" color="black">RegalitosNao Manager</Typography>

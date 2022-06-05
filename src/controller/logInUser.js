@@ -9,6 +9,7 @@ export async function logInUser(input) { //Log in POST
         password: input.password,
       }),
     };
+    console.log(input)
     const response = await fetch( serverURL + "api/users/login/user",
       requestOptions
     );
