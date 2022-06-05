@@ -1,4 +1,4 @@
-export const serverURL = "https://regalitosnao-backend.herokuapp.com/"
+export const serverURL = "http://localhost:8000/"
 
 //"http://localhost:8000/"
 

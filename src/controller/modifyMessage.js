@@ -5,11 +5,12 @@ export async function modifyMessage(input) { //Controlador para crear un nuevo i
     const requestOptions = {
       method: "PUT",
       headers: {
+        "Content-Type": "application/json",
         Authorization: `JWT ${token}` , //token required to validate the user
       },
-      body: {
-          text: input,
-      }
+      body: JSON.stringify({
+        text: input,
+      }),
     };
     const response = await fetch( serverURL + `api/messages/629d1a45d5a4c4e75ae57dda`,
       requestOptions
