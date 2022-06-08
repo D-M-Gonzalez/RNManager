@@ -12,7 +12,7 @@ export async function modifyMessage(input) { //Controlador para crear un nuevo i
         text: input,
       }),
     };
-    const response = await fetch( serverURL + `api/messages/629d1a45d5a4c4e75ae57dda`,
+    const response = await fetch( serverURL + `api/messages/629d4468070ced7f466f1e73`,
       requestOptions
     );
     const data = await response.json();
